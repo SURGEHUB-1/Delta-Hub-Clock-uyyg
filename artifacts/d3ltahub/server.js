@@ -92,6 +92,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.post("/hub-admin/check", (req, res) => {
+  const { password } = req.body;
+  if (password && password === config.adminPassword) {
+    return res.json({ ok: true });
+  }
+  return res.status(403).json({ ok: false });
+});
+
 const transportStaticOptions = {
   setHeaders: (res, filePath) => {
     const ext = path.extname(filePath);
